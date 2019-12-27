@@ -1,7 +1,12 @@
 package com.bridgelabz;
 
 public class MoodAnalyzer {
-    public String analyze(String message) throws MoodException {
+    private String message;
+    public MoodAnalyzer(String message) {
+        this.message=message;
+    }
+
+    public String analyze() throws MoodException {
         try {
             if (message.length() == 0)
                 throw new MoodException(MoodException.ExceptionType.ENTERED_EMPTY,"Please enter valid input");

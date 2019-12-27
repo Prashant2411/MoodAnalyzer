@@ -4,38 +4,37 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.lang.reflect.Constructor;
+
 public class MoodAnalyzerTest {
     @Test
     public void whenGivenSad_shouldReturnSad() {
-        MoodAnalyzer moodAnalyzer = new MoodAnalyzer();
-        String message = moodAnalyzer.analyze("I am sad right know");
+        MoodAnalyzer moodAnalyzer = new MoodAnalyzer("I am sad right now");
+        String message = moodAnalyzer.analyze();
         Assert.assertEquals("Sad", message);
     }
 
     @Test
     public void whenGivenHappy_shouldReturnHappy() {
-        MoodAnalyzer moodAnalyzer = new MoodAnalyzer();
-        String message = moodAnalyzer.analyze("I am happy right know");
+        MoodAnalyzer moodAnalyzer = new MoodAnalyzer("I am happy now");
+        String message = moodAnalyzer.analyze();
         Assert.assertEquals("Happy", message);
     }
 
     @Test
     public void whenGivenSadMessageWithAlphabetCapital_shouldReturnSad() {
-        MoodAnalyzer moodAnalyzer = new MoodAnalyzer();
-        String message = moodAnalyzer.analyze("I am Sad right know");
+        MoodAnalyzer moodAnalyzer = new MoodAnalyzer("I am Sad now");
+        String message = moodAnalyzer.analyze();
         Assert.assertEquals("Sad", message);
     }
 
     @Test
     public void whenGivenNullInput_shouldReturnInvalid() {
-        MoodAnalyzer moodAnalyzer = new MoodAnalyzer();
-        String message = null;
+        MoodAnalyzer moodAnalyzer = new MoodAnalyzer(null);
         try {
          //   ExpectedException exceptionRule = ExpectedException.none();
          //   exceptionRule.expect(MoodException.class); Used only when exception class extends Exception
-            moodAnalyzer.analyze(null);
-        } catch (MoodException e) {
-            Assert.assertEquals("Please enter valid input", e.getMessage());
-        }
+            moodAnalyzer.analyze();
+        } catch (MoodException e);
     }
 }
