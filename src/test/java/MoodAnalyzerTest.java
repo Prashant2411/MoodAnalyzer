@@ -3,6 +3,7 @@ import com.bridgelabz.MoodAnalyzerFactory;
 import com.bridgelabz.MoodException;
 import org.junit.Assert;
 import org.junit.Test;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
@@ -34,8 +35,6 @@ public class MoodAnalyzerTest {
     public void whenGivenNullInput_shouldReturnInvalid() {
         MoodAnalyzer moodAnalyzer = new MoodAnalyzer(null);
         try {
-         //   ExpectedException exceptionRule = ExpectedException.none();
-         //   exceptionRule.expect(MoodException.class); Used only when exception class extends Exception
             moodAnalyzer.analyze();
         } catch (MoodException e){
             Assert.assertEquals("Please enter valid input",e.getMessage());
@@ -83,4 +82,37 @@ public class MoodAnalyzerTest {
         MoodAnalyzer obj2 = MoodAnalyzerFactory.createMoodAnalyzer("I am Happy");
         Assert.assertEquals(obj1, obj2);
     }
+
+    @Test
+    public void givenClassName_whenImproper_shouldReturnException() {
+        try {
+            constructor = Class.forName("com.bridgelabz.MoodAnalyser").getConstructor(String.class);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            try{
+                throw new MoodException(MoodException.ExceptionType.NO_CLASS_FOUND, "No such Class found");
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+
+        }
+    }
+
+    @Test
+    public void givenClassName_whenConstructorImproper_shouldReturnException() {
+        try {
+            constructor = Class.forName("com.bridgelabz.MoodAnalyzer").getConstructor(Character.class);
+        } catch (NoSuchMethodException e) {
+            try{
+                throw new MoodException(MoodException.ExceptionType.NO_METHOD_FOUND, "No such method found");
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    8
 }
