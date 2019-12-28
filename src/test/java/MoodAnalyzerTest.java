@@ -1,12 +1,14 @@
 import com.bridgelabz.MoodAnalyzer;
+import com.bridgelabz.MoodAnalyzerFactory;
 import com.bridgelabz.MoodException;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
-
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 public class MoodAnalyzerTest {
+    Constructor<?> constructor=null;
+
     @Test
     public void whenGivenSad_shouldReturnSad() {
         MoodAnalyzer moodAnalyzer = new MoodAnalyzer("I am sad right now");
@@ -35,6 +37,50 @@ public class MoodAnalyzerTest {
          //   ExpectedException exceptionRule = ExpectedException.none();
          //   exceptionRule.expect(MoodException.class); Used only when exception class extends Exception
             moodAnalyzer.analyze();
-        } catch (MoodException e);
+        } catch (MoodException e){
+            Assert.assertEquals("Please enter valid input",e.getMessage());
+        }
+    }
+
+    @Test
+    public void givenMoodAnalyzerObject_whenProper_shouldReturnObject() {
+        try {
+            constructor = Class.forName("com.bridgelabz.MoodAnalyzer").getConstructor(String.class);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            Object myObj = constructor.newInstance("I am happy now");
+            MoodAnalyzer moodAnalyzer = (MoodAnalyzer) myObj;
+            try {
+                String mood = moodAnalyzer.analyze();
+                Assert.assertEquals("Happy", mood);
+            }
+            catch (MoodException e) {
+                e.printStackTrace();
+            }
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenMoodAnalyzerClass_whenProper_shouldReturnObject() {
+        MoodAnalyzer moodAnalyzer = MoodAnalyzerFactory.createMoodAnalyzer("Please enter valid input");
+        String mood = moodAnalyzer.analyze();
+        Assert.assertEquals("Sad",mood);
+    }
+
+    @Test
+    public void givenMoodAnalyzerClass_whenIsProper_shouldReturnObject() {
+        MoodAnalyzer obj1 = new MoodAnalyzer("I am Happy");
+        MoodAnalyzer obj2 = MoodAnalyzerFactory.createMoodAnalyzer("I am Happy");
+        Assert.assertEquals(obj1, obj2);
     }
 }
