@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -133,9 +134,39 @@ public class MoodAnalyzerTest {
 
     @Test
     public void whenGivenMethodToInvoke_shouldReturnObject() {
+        Constructor constructor = MoodAnalyzerReflector.getConstructor(String.class);
+        Object object = MoodAnalyzerReflector.getObject(constructor, "I am Sad");
+        boolean m = MoodAnalyzerReflector.getMethod("analyze", object);
+        Assert.assertTrue(m);
+    }
+
+    @Test
+    public void whenGivenMethodToInvoke_ifMethodNameInvalid_shouldReturnObject() {
+        try {
             Constructor constructor = MoodAnalyzerReflector.getConstructor(String.class);
             Object object = MoodAnalyzerReflector.getObject(constructor, "I am Sad");
-            String m = MoodAnalyzerReflector.getMethod("analyze", object);
-            Assert.assertEquals(m, "Sad");
+            boolean m = MoodAnalyzerReflector.getMethod("analyse", object);
+            Assert.assertFalse(m);
+        } catch (MoodException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void whenGivenFieldName_ifNotValid_shouldReturnObject() {
+        Class<?> moodAnalyzerclass = null;
+        try {
+            moodAnalyzerclass = Class.forName("com.bridgelabz.MoodAnalyzer");
+            Field field = moodAnalyzerclass.getField("message123");
+            Assert.assertEquals(field,"message");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchFieldException e) {
+            try {
+                throw new MoodException(MoodException.ExceptionType.NO_FIELD_FOUND, "No such field found");
+            } catch (MoodException e1) {
+                e1.printStackTrace();
+            }
+        }
     }
 }

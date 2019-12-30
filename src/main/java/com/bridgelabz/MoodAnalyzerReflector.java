@@ -53,18 +53,18 @@ public class MoodAnalyzerReflector {
         return moodObj;
     }
 
-    public static String getMethod(String methodName, Object object) {
+    public static boolean getMethod(String methodName, Object object) {
         Object rv = null;
         try {
             Method m = MoodAnalyzer.class.getDeclaredMethod(methodName);
             rv = m.invoke(object);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+             throw new MoodException(MoodException.ExceptionType.NO_METHOD_FOUND, "No such method found");
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
-        return rv.toString();
+        return rv.toString().equals("Sad");
     }
 }
