@@ -1,5 +1,5 @@
 import com.bridgelabz.MoodAnalyzer;
-import com.bridgelabz.MoodAnalyzerFactory;
+import com.bridgelabz.MoodAnalyzerReflector;
 import com.bridgelabz.MoodException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -72,7 +72,7 @@ public class MoodAnalyzerTest {
 
     @Test
     public void givenMoodAnalyzerClass_whenProper_shouldReturnObject() {
-        MoodAnalyzer moodAnalyzer = MoodAnalyzerFactory.createMoodAnalyzer("Please enter valid input");
+        MoodAnalyzer moodAnalyzer = MoodAnalyzerReflector.createMoodAnalyzer("Please enter valid input");
         String mood = moodAnalyzer.analyze();
         Assert.assertEquals("Happy",mood);
     }
@@ -80,7 +80,7 @@ public class MoodAnalyzerTest {
     @Test
     public void givenMoodAnalyzerClass_whenIsProper_shouldReturnObject() {
         MoodAnalyzer obj1 = new MoodAnalyzer("I am Happy");
-        MoodAnalyzer obj2 = MoodAnalyzerFactory.createMoodAnalyzer("I am Happy");
+        MoodAnalyzer obj2 = MoodAnalyzerReflector.createMoodAnalyzer("I am Happy");
         Assert.assertEquals(obj1, obj2);
     }
 
@@ -117,16 +117,16 @@ public class MoodAnalyzerTest {
 
     @Test
     public void whenGivenConstructorWithParameter_shouldReturnObject() {
-        Constructor constructor = MoodAnalyzerFactory.getConstructor(String.class);
-        Object object = MoodAnalyzerFactory.getObject(constructor, "I am Happy");
+        Constructor constructor = MoodAnalyzerReflector.getConstructor(String.class);
+        Object object = MoodAnalyzerReflector.getObject(constructor, "I am Happy");
         MoodAnalyzer moodAnalyzer = (MoodAnalyzer) object;
         Assert.assertTrue(moodAnalyzer.equals(new MoodAnalyzer("I am Happy")));
     }
 
     @Test
     public void whenGivenConstructorWithNoParameter_shouldReturnObject() {
-        Constructor constructor = MoodAnalyzerFactory.getConstructor();
-        Object object = MoodAnalyzerFactory.getObject(constructor);
+        Constructor constructor = MoodAnalyzerReflector.getConstructor();
+        Object object = MoodAnalyzerReflector.getObject(constructor);
         MoodAnalyzer moodAnalyzer = (MoodAnalyzer) object;
         Assert.assertTrue(moodAnalyzer.equals(new MoodAnalyzer()));
     }
