@@ -141,7 +141,7 @@ public class MoodAnalyzerTest {
     }
 
     @Test
-    public void whenGivenMethodToInvoke_ifMethodNameInvalid_shouldReturnObject() {
+    public void whenGivenMethodToInvoke_ifMethodNameInvalid_shouldGiveException() {
         try {
             Constructor constructor = MoodAnalyzerReflector.getConstructor(String.class);
             Object object = MoodAnalyzerReflector.getObject(constructor, "I am Sad");
@@ -153,7 +153,7 @@ public class MoodAnalyzerTest {
     }
 
     @Test
-    public void whenGivenFieldName_ifNotValid_shouldReturnObject() {
+    public void whenGivenFieldName_ifNotValid_shouldGiveException() {
         Class<?> moodAnalyzerclass = null;
         try {
             moodAnalyzerclass = Class.forName("com.bridgelabz.MoodAnalyzer");
@@ -168,5 +168,16 @@ public class MoodAnalyzerTest {
                 e1.printStackTrace();
             }
         }
+    }
+
+    @Test
+    public void whenGivenNullMessage_shouldThrowException() {
+        try {
+            Constructor constructor = MoodAnalyzerReflector.getConstructor(String.class);
+            MoodAnalyzerReflector.getObject(constructor, null);
+        } catch (MoodException e) {
+            e.printStackTrace();
+        }
+
     }
 }

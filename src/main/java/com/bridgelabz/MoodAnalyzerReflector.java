@@ -49,6 +49,8 @@ public class MoodAnalyzerReflector {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            throw new MoodException(MoodException.ExceptionType.ENTERED_NULL,"Please enter valid message");
         }
         return moodObj;
     }
