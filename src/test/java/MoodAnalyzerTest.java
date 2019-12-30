@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class MoodAnalyzerTest {
     Constructor<?> constructor=null;
@@ -128,5 +129,26 @@ public class MoodAnalyzerTest {
         Object object = MoodAnalyzerFactory.getObject(constructor);
         MoodAnalyzer moodAnalyzer = (MoodAnalyzer) object;
         Assert.assertTrue(moodAnalyzer.equals(new MoodAnalyzer()));
+    }
+
+    @Test
+    public void whenGivenMethodToInvoke_shouldReturnObject() throws ClassNotFoundException {
+        try {
+            Class<?> moodAnalyzerclass = Class.forName("com.bridgelabz.MoodAnalyzer");
+            Constructor<?> moodConstructor = moodAnalyzerclass.getConstructor(String.class);
+            Object moodObj = moodConstructor.newInstance("I am Happy");
+            Method m = moodAnalyzerclass.getDeclaredMethod("analyze");
+            Object rv = m.invoke(moodObj);
+            Assert.assertEquals(rv.toString(),"Happy");
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
+
     }
 }
