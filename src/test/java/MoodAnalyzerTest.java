@@ -132,23 +132,10 @@ public class MoodAnalyzerTest {
     }
 
     @Test
-    public void whenGivenMethodToInvoke_shouldReturnObject() throws ClassNotFoundException {
-        try {
-            Class<?> moodAnalyzerclass = Class.forName("com.bridgelabz.MoodAnalyzer");
-            Constructor<?> moodConstructor = moodAnalyzerclass.getConstructor(String.class);
-            Object moodObj = moodConstructor.newInstance("I am Happy");
-            Method m = moodAnalyzerclass.getDeclaredMethod("analyze");
-            Object rv = m.invoke(moodObj);
-            Assert.assertEquals(rv.toString(),"Happy");
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        }
-
+    public void whenGivenMethodToInvoke_shouldReturnObject() {
+            Constructor constructor = MoodAnalyzerReflector.getConstructor(String.class);
+            Object object = MoodAnalyzerReflector.getObject(constructor, "I am Sad");
+            String m = MoodAnalyzerReflector.getMethod("analyze", object);
+            Assert.assertEquals(m, "Sad");
     }
 }

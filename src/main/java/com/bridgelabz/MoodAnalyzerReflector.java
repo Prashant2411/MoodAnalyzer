@@ -2,6 +2,7 @@ package com.bridgelabz;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class MoodAnalyzerReflector {
     public static MoodAnalyzer createMoodAnalyzer(String message) {
@@ -50,5 +51,20 @@ public class MoodAnalyzerReflector {
             e.printStackTrace();
         }
         return moodObj;
+    }
+
+    public static String getMethod(String methodName, Object object) {
+        Object rv = null;
+        try {
+            Method m = MoodAnalyzer.class.getDeclaredMethod(methodName);
+            rv = m.invoke(object);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return rv.toString();
     }
 }
