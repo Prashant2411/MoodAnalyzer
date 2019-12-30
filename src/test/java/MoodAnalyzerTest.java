@@ -19,7 +19,7 @@ public class MoodAnalyzerTest {
 
     @Test
     public void whenGivenHappy_shouldReturnHappy() {
-        MoodAnalyzer moodAnalyzer = new MoodAnalyzer("I am happy now");
+        MoodAnalyzer moodAnalyzer = new MoodAnalyzer("I am Happy now");
         String message = moodAnalyzer.analyze();
         Assert.assertEquals("Happy", message);
     }
@@ -73,7 +73,7 @@ public class MoodAnalyzerTest {
     public void givenMoodAnalyzerClass_whenProper_shouldReturnObject() {
         MoodAnalyzer moodAnalyzer = MoodAnalyzerFactory.createMoodAnalyzer("Please enter valid input");
         String mood = moodAnalyzer.analyze();
-        Assert.assertEquals("Sad",mood);
+        Assert.assertEquals("Happy",mood);
     }
 
     @Test
@@ -114,5 +114,19 @@ public class MoodAnalyzerTest {
         }
     }
 
-    8
+    @Test
+    public void whenGivenConstructorWithParameter_shouldReturnObject() {
+        Constructor constructor = MoodAnalyzerFactory.getConstructor(String.class);
+        Object object = MoodAnalyzerFactory.getObject(constructor, "I am Happy");
+        MoodAnalyzer moodAnalyzer = (MoodAnalyzer) object;
+        Assert.assertTrue(moodAnalyzer.equals(new MoodAnalyzer("I am Happy")));
+    }
+
+    @Test
+    public void whenGivenConstructorWithNoParameter_shouldReturnObject() {
+        Constructor constructor = MoodAnalyzerFactory.getConstructor();
+        Object object = MoodAnalyzerFactory.getObject(constructor);
+        MoodAnalyzer moodAnalyzer = (MoodAnalyzer) object;
+        Assert.assertTrue(moodAnalyzer.equals(new MoodAnalyzer()));
+    }
 }

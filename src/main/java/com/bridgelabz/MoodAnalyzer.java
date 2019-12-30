@@ -5,6 +5,10 @@ import java.util.Objects;
 public class MoodAnalyzer {
     private String message;
 
+    public MoodAnalyzer() {
+
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
